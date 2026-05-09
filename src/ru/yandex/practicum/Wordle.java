@@ -2,6 +2,7 @@ package ru.yandex.practicum;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Wordle {
@@ -15,14 +16,11 @@ public class Wordle {
 
             WordleDictionary dictionary = loader.loadWordleDictionary("words_ru.txt");
 
-            String answer = dictionary.getRandomWord()
-                    .trim()
-                    .toLowerCase()
-                    .replace("ё", "е");
+            String answer = dictionary.getRandomWord();
 
             WordleGame game = new WordleGame(
                     answer,
-                    new java.util.ArrayList<>(),
+                    new ArrayList<>(),
                     dictionary,
                     6
             );
@@ -32,7 +30,10 @@ public class Wordle {
             while (game.getSteps() > 0) {
 
                 System.out.println("Введите слово (Enter = подсказка):");
-                String input = scanner.nextLine();
+                String input = scanner.nextLine()
+                        .trim()
+                        .toLowerCase()
+                        .replace("ё", "е");
 
                 if (input.isEmpty()) {
                     String hint = game.getHint();
@@ -42,7 +43,7 @@ public class Wordle {
                 }
 
                 try {
-                    WordleGame.Move move = game.makeTurn(input);
+                    Move move = game.makeTurn(input);
 
                     System.out.println(move.getResult());
                     log.write(move.getWord() + " -> " + move.getResult() + "\n");

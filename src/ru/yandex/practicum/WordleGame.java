@@ -16,28 +16,6 @@ public class WordleGame {
         this.steps = steps;
     }
 
-    static class Move {
-        private final String word;
-        private final String result;
-
-        public Move(String word, String result) {
-            this.word = word;
-            this.result = result;
-        }
-
-        public String getWord() {
-            return word;
-        }
-
-        public String getResult() {
-            return result;
-        }
-    }
-
-    private String normalize(String word) {
-        return word.trim().toLowerCase().replace("ё", "е");
-    }
-
     private String makeMove(String word) {
 
         char[] result = {'-', '-', '-', '-', '-'};
@@ -73,10 +51,13 @@ public class WordleGame {
     }
 
     public Move makeTurn(String word) {
-        word = normalize(word);
 
         if (!dictionary.contains(word)) {
             throw new WordNotFoundInDictionaryException();
+        }
+
+        if (word.length() != 5) {
+            throw new IllegalArgumentException("Слово должно содержать 5 букв!");
         }
 
         String result = makeMove(word);
@@ -89,7 +70,7 @@ public class WordleGame {
     }
 
     public boolean isWin(String word) {
-        return answer.equals(normalize(word));
+        return answer.equals(word);
     }
 
     public int getSteps() {

@@ -68,10 +68,11 @@ class WordleTest {
                 6
         );
 
-        WordleGame.Move move = game.makeTurn("лапка");
+        Move move = game.makeTurn("лапка");
 
         assertNotNull(move);
-        assertEquals(5, move.getResult().length());
+        assertEquals("лапка", move.getWord());
+        assertEquals("++^-+", move.getResult());
     }
 
     @Test
